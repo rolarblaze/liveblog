@@ -1,0 +1,16 @@
+{% extends "livenews/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            <div class="border-bottom pt-3">
+                <small text-muted>
+                   you are logout, login here <a class="ml-3" href="{% url 'news-login'%}">Login</a>
+                </small>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
+

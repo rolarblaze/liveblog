@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+      <link rel="stylesheet" type="text/css" href="{% static 'livenews/index.css'%}">
+
+    {% if title %}
+    <title>livenews -{{ title }} </title>
+
+    {% else %}
+        <title></title>
+    {% endif %}
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-light bg-primary fixed-top">
+            <div class="container">
+                <a class="navbar-brand mr-4" href="{% url 'news-home' %}">LIVENEWS</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <div class="navbar-nav mr-auto">
+                        <a class="nav-item nav-link" href="{% url 'news-home'%}">HOME</a>
+                        <a class="nav-item nav-link" href="{% url 'news-about'%}">ABOUT</a>
+                    </div>
+                    <!--Nav right side -->
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <a class="nav-item nav-link" href="{% url 'news-profile'%}">Account</a>
+                            <a class="nav-item nav-link" href="{% url 'news-logout'%}">Logout</a>
+                        {% else %}
+                            <a class="nav-item nav-link" href="{% url 'news-login'%}">LOGIN</a>
+                            <a class="nav-item nav-link" href="{% url 'news-register'%}">REGISTER</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8">
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% block content %}{% endblock %}
+            </div>
+            <div class="col-md-4">
+                <div class="content-section">
+                    <h3> Top Header</h3>
+                    <p class="text-muted"> Put your information on this section of the app
+                        <ul class="list-group">
+                            <li class="list-group-item list-group-item-light">Latest Post</li>
+                            <li class="list-group-item list-group-item-light">Upcoming Events</li>
+                            <li class="list-group-item list-group-item-light">Sports News</li>
+                            <li class="list-group-item list-group-item-light">Calendar</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>  
+</body>
+</html>
