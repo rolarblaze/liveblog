@@ -12,7 +12,7 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account succesfully created for {username}!') #send a success message that account has been created for a user
-            return redirect('login')
+            return redirect('news-login')
     else:
         form = UserAccount()
     return render(request, 'registration/signup.html', {'form':form})
