@@ -17,6 +17,9 @@
                 <div class="article-metadata">
                     <a class="mr-2" href="{% url 'post-detail'% post.id }">{{object.author}}
                     <small class="text-muted">{{object.date_posted | date:"F d, Y"}}</small>
+                    {% if object.author == user%}
+                        <a href="{% url 'post-detail' object.id %}">
+                    {% endif %}
                 </div>
                 <h2 class="article-title">{{object.title}}</h2>
                 <p class="article-content">{{object.content }}</p>
