@@ -9,5 +9,10 @@ def home(request):
     }
     return render(request, 'livenews/home.html', nxt)
 
+class NewsListView(ListView):
+    model = Post
+    template_name = 'livenews/home.html' #<app name>--<model name>---<viewtype>.html
+    context_name = 'posts'
+
 def about(request):
     return render(request, 'livenews/about.html')
