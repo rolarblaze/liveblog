@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from .models import Post
 
 # Create your views here.
@@ -19,7 +19,15 @@ class NewsListView(ListView):
 
 class NewsDetailView(DetailView):
     model = Post
-    
+
+
+class NewsCreateView(CreateView):
+    model = Post  
+    fields = ['title', 'content']
+
+    def form_valid(self, from):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 def about(request):
     return render(request, 'livenews/about.html')

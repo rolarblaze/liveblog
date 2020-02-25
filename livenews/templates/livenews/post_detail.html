@@ -1,0 +1,28 @@
+
+{% extends "livenews/base.html" %}
+
+    {% if title %}
+    <title>livenews - {{ title }} </title>
+    {% else %}
+        <title>LIVENEWS</title>
+    {% endif %}
+
+</head>
+<body>
+    <h1>Welcome to livenews update</h1>
+    {% block content %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{object.author.profile.image}}">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'post-detail'% post.id }">{{object.author}}
+                    <small class="text-muted">{{object.date_posted | date:"F d, Y"}}</small>
+                </div>
+                <h2 class="article-title">{{object.title}}</h2>
+                <p class="article-content">{{object.content }}</p>
+            </div>
+    </article>
+    {% endblock content%}
+
+</body>
+</html>
