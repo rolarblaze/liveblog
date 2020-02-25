@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from dajngo.contrib.auth.mixins import LoginRequiredMixins
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .models import Post
+
 
 # Create your views here.
 
@@ -21,13 +23,22 @@ class NewsDetailView(DetailView):
     model = Post
 
 
-class NewsCreateView(CreateView):
+class NewsCreateView(LoginRequiredMixins, CreateView):
     model = Post  
     fields = ['title', 'content']
 
-    def form_valid(self, from):
+    def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class NewsUpdateView(LoginRequiredMixins, UpdateView):
+    model = Post  
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 def about(request):
     return render(request, 'livenews/about.html')
