@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from dajngo.contrib.auth.mixins import LoginRequiredMixins
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 
 
@@ -23,7 +23,7 @@ class NewsDetailView(DetailView):
     model = Post
 
 
-class NewsCreateView(LoginRequiredMixins, CreateView):
+class NewsCreateView(LoginRequiredMixin, CreateView):
     model = Post  
     fields = ['title', 'content']
 
@@ -31,7 +31,7 @@ class NewsCreateView(LoginRequiredMixins, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class NewsUpdateView(LoginRequiredMixins, UpdateView):
+class NewsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post  
     fields = ['title', 'content']
 
@@ -39,6 +39,23 @@ class NewsUpdateView(LoginRequiredMixins, UpdateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+ #Test for to allow the right user to update post
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        else:
+            return False
+#a delete view that allows the author to be able to delete the post
+class NewsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Post
+    success_url ='/'
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        else:
+            return False
 
 def about(request):
     return render(request, 'livenews/about.html')
