@@ -1,7 +1,7 @@
 
 {% extends "livenews/base.html" %}
 <body>
-    <h1>Welcome to livenews update</h1>
+    <h1 class="mb-3">News by {{view.kwars.username}} ({{page_obj.paginator.count}})</h1>
     {% block content %}
         {% for post in posts %}
             <article class="media content-section">
